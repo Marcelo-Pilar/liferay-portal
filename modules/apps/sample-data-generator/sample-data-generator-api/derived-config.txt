@@ -1,0 +1,3 @@
+com/liferay/sample/data/generator/model/SDGEntity.<init>()V
+com/liferay/sample/data/generator/model/SDGEntity.setName(Ljava/lang/String;)V
+com/liferay/sample/data/generator/model/SDGEntity.getName()Ljava/lang/String;:UNKNOWN

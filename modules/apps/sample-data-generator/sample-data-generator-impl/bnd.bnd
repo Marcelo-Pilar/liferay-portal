@@ -1,0 +1,3 @@
+Bundle-Name: Liferay Sample Data Generator Implementation
+Bundle-SymbolicName: com.liferay.sample.data.generator.impl
+Bundle-Version: 1.0.0
