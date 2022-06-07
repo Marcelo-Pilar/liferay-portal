@@ -12,21 +12,39 @@
  * details.
  */
 
-package com.liferay.sample.data.generator.internal.manager;
+package com.liferay.sample.data.generator.manager.test;
 
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.sample.data.generator.manager.SDGManager;
 
-import org.osgi.service.component.annotations.Component;
+import org.junit.Assert;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author José Abelenda
  */
-@Component(immediate = true, service = SDGManager.class)
-public class SDGManagerImpl implements SDGManager {
+@RunWith(Arquillian.class)
+public class SDGManagerTest {
 
-	public JSONObject generateSampleData(JSONObject jsonObject) {
-		return null;
+	@ClassRule
+	@Rule
+	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
+		new LiferayIntegrationTestRule();
+
+	@Test
+	public void testGenerateSampleData() {
+		JSONObject jsonObject = _sdgManager.generateSampleData(null);
+
+		Assert.assertNull(jsonObject);
 	}
+
+	@Inject
+	private SDGManager _sdgManager;
 
 }
