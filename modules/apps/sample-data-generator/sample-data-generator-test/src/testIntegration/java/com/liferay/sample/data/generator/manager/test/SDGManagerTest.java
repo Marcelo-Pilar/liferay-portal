@@ -15,7 +15,9 @@
 package com.liferay.sample.data.generator.manager.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.sample.data.generator.manager.SDGManager;
@@ -39,9 +41,30 @@ public class SDGManagerTest {
 
 	@Test
 	public void testGenerateSampleData() {
-		JSONObject jsonObject = _sdgManager.generateSampleData(null);
+		JSONObject jsonObject = _sdgManager.generateSampleData(
+			JSONUtil.put(
+				"fields",
+				JSONFactoryUtil.createJSONArray(
+				).put(
+					JSONUtil.put(
+						"fieldName", "name"
+					).put(
+						"fieldType", "MALE_FIRST_NAME"
+					)
+				).put(
+					JSONUtil.put(
+						"fieldName", "age"
+					).put(
+						"fieldType", "AGE"
+					).put(
+						"rangeValue", "[18;45]"
+					)
+				)
+			));
 
-		Assert.assertNull(jsonObject);
+		System.out.println("result: " + jsonObject);
+
+		Assert.assertNotNull(jsonObject);
 	}
 
 	@Inject
