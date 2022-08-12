@@ -14,6 +14,7 @@
 
 package com.liferay.sample.data.generator.manager;
 
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -24,6 +25,7 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface SDGManager {
 
-	public JSONObject generateSampleData(JSONObject jsonObject);
+	public JSONObject generateSampleData(JSONObject structureJSONObject);
+	public JSONArray generateSampleData(JSONObject structureJSONObject, int quantity);
 
 }

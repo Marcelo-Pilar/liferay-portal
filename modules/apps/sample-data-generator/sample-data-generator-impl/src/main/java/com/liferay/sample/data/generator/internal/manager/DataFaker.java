@@ -29,19 +29,6 @@ import java.io.InputStream;
  */
 public class DataFaker {
 
-	public static String getValue(JSONObject jsonObject) {
-		String defaultValue = jsonObject.getString("defaultValue");
-
-		// if (Validator.isNotNull(defaultValue)) {
-		// 	jsonObject1.put(
-		// 		jsonObject.getString("fieldName"), defaultValue);
-		// }
-		// else {
-
-		// }
-		return "";
-	}
-
 	public static int getRandomNumber(int min, int max) {
 		return Math.toIntExact(Math.round((Math.random() * (max - min)) + min));
 	}

@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.sample.data.generator.internal.manager.PersonDataFaker;
 import com.liferay.sample.data.generator.manager.SDGManager;
@@ -30,33 +31,36 @@ import org.osgi.service.component.annotations.Component;
 @Component(immediate = true, service = SDGManager.class)
 public class SDGManagerImpl implements SDGManager {
 
-	public JSONObject generateSampleData(JSONObject jsonObject) {
-		JSONObject jsonObject1 = JSONFactoryUtil.createJSONObject();
+	public JSONArray generateSampleData(JSONObject structureJSONObject, int quantity) {
+		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
-		JSONArray jsonArray = jsonObject.getJSONArray("fields");
-
-		for (int i = 0; i < jsonArray.length(); i++) {
-
-			String defaultValue = jsonObject.getString("defaultValue");
-
-			if (Validator.isNotNull(defaultValue)) {
-				jsonObject1.put(
-					jsonObject.getString("fieldName"), defaultValue);
-			}
-			else {
-
-			}
-
-			// JSONObject jsonObject2 = _getFieldJSONObject(jsonArray.getJSONObject(i))
-			// jsonObject1.put(jsonObject2.getKey(), jsonObject2.getValue());
+		for(int i = 0; i < quantity; i++) {
+			jsonArray.put(generateSampleData(structureJSONObject));
 		}
 
-		return jsonObject1;
+		return jsonArray;
+	}
+
+	public JSONObject generateSampleData(JSONObject structureJSONObject) {
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
+
+		JSONArray jsonArray = structureJSONObject.getJSONArray("fields");
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+
+			JSONObject jsonObject3 = _getFieldJSONObject(jsonArray.getJSONObject(i));
+
+			String name = jsonObject2.getString("fieldName");
+			Object value = jsonObject3.get(name);
+
+			jsonObject.put(name, value);
+		}
+
+		return jsonObject;
 	}
 
 	private JSONObject _getFieldJSONObject(JSONObject jsonObject) {
-		System.out.println("_getField: " + jsonObject);
-
 		String defaultValue = jsonObject.getString("defaultValue");
 
 		if (Validator.isNotNull(defaultValue)) {
@@ -69,9 +73,14 @@ public class SDGManagerImpl implements SDGManager {
 		String value = "";
 
 		if (fieldType.equals("AGE")) {
-			int age = DataFaker.getRandomNumber(18, 45);
+			String fieldRangeValue = jsonObject.getString("fieldRangeValue");
 
-			value = String.valueOf(age);
+			if(fieldRangeValue != null) {
+				int[] fieldRangeValues = StringUtil.split(fieldRangeValue, 0);
+
+				value = String.valueOf(DataFaker.getRandomNumber(
+					fieldRangeValues[0], fieldRangeValues[1]));
+			}
 		}
 
 		if (fieldType.equals("MALE_FIRST_NAME")) {

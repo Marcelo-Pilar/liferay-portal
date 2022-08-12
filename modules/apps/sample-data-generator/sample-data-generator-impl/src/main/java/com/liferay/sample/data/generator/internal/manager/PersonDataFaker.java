@@ -36,7 +36,7 @@ public class PersonDataFaker extends DataFaker {
 	}
 
 	public static String getRandomFemaleFullName() {
-		return getRandomFemaleFirstName() + getRandomLastName();
+		return getRandomFemaleFirstName() + " " +  getRandomLastName();
 	}
 
 	public static String getRandomLastName() {
@@ -52,7 +52,7 @@ public class PersonDataFaker extends DataFaker {
 	}
 
 	public static String getRandomMaleFullName() {
-		return getRandomMaleFirstName() + getRandomLastName();
+		return getRandomMaleFirstName() + " " + getRandomLastName();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(PersonDataFaker.class);

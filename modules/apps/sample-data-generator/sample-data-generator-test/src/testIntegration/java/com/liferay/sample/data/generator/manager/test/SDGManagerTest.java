@@ -18,6 +18,7 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.sample.data.generator.manager.SDGManager;
@@ -41,30 +42,35 @@ public class SDGManagerTest {
 
 	@Test
 	public void testGenerateSampleData() {
-		JSONObject jsonObject = _sdgManager.generateSampleData(
-			JSONUtil.put(
-				"fields",
-				JSONFactoryUtil.createJSONArray(
+		JSONArray jsonArray = _sdgManager.generateSampleData(JSONUtil.put(
+			"fields",
+			JSONFactoryUtil.createJSONArray(
+			).put(
+				JSONUtil.put(
+					"fieldName", "age"
 				).put(
-					JSONUtil.put(
-						"fieldName", "name"
-					).put(
-						"fieldType", "MALE_FIRST_NAME"
-					)
+					"fieldType", "AGE"
 				).put(
-					JSONUtil.put(
-						"fieldName", "age"
-					).put(
-						"fieldType", "AGE"
-					).put(
-						"rangeValue", "[18;45]"
-					)
+					"fieldRangeValue", "18,50"
 				)
-			));
+			).put(
+				JSONUtil.put(
+					"fieldName", "gender"
+				).put(
+					"defaultValue", "M"
+				)
+			).put(
+				JSONUtil.put(
+					"fieldName", "name"
+				).put(
+					"fieldType", "MALE_FULL_NAME"
+				)
+			)
+		), 10);
 
-		System.out.println("result: " + jsonObject);
+		System.out.println("result: " + jsonArray);
 
-		Assert.assertNotNull(jsonObject);
+		Assert.assertNotNull(jsonArray);
 	}
 
 	@Inject
